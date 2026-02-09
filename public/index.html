@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Hi I am Judah </h1>
+    <p>BCA Student | Aspiring Software Developer</p>
+  </header>
+
+  <section>
+    <h2>About Me</h2>
+    <p>
+      My goal is to put my BCA education to good use by learning programming
+      and practical development skills.
+    </p>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <p>HTML, CSS, JavaScript, Basics of Node.js</p>
+  </section>
+
+  <section>
+    <h2>Contact Me</h2>
+
+    <form action="http://localhost:3000/submit" method="POST">
+
+  <label>Name</label><br>
+  <input type="text" name="name" required><br><br>
+
+  <label>Email</label><br>
+  <input type="email" name="email" required><br><br>
+
+  <label>Message</label><br>
+  <textarea name="message" required></textarea><br><br>
+
+  <button type="submit">Send Message</button>
+
+</form>
+<p id = "status"></p>
+  </section>
+
+  <footer>
+    <p>© 2026 My Portfolio</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
