@@ -28,19 +28,40 @@
   <section>
     <h2>Contact Me</h2>
 
-    <form action="/submit" method="POST">
+    <form id="contactForm">
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
         <textarea name="message" placeholder="Your Message" required></textarea>
         <button type="submit">Send</button>
     </form>
-<p id = "status"></p>
+<p id="status" style="color: green; font-weight: bold;"></p>
   </section>
 
   <footer>
     <p>© 2026 My Portfolio</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("status");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // stop page reload
+
+    const formData = new FormData(form);
+
+    const res = await fetch("/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await res.text();
+
+    status.textContent = text;
+    status.style.color = res.ok ? "green" : "red";
+
+    if (res.ok) form.reset();
+  });
+</script>
 </body>
 </html>
