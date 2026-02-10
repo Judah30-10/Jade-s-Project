@@ -4,43 +4,39 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Use Render's assigned port
 
-// middleware
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// serve static files from /public
+// Serve frontend files from "public" folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// handle form submission
+// Contact form route
 app.post("/submit", (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
-    return res.status(400).send("All fields are required");
+    return res.send("All fields required");
   }
 
-  const text = `
-------------------------
+  const text =
+`------------------------
 Name: ${name}
 Email: ${email}
 Message: ${message}
 Date: ${new Date().toLocaleString()}
-------------------------
-`;
+------------------------\n`;
 
   fs.appendFile("messages.txt", text, (err) => {
     if (err) {
-      console.error(err);
-      return res.status(500).send("Error saving message");
+      return res.send("Error saving message");
     }
     res.send("Message saved successfully");
   });
 });
 
-// start server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(Server running at http://localhost:${PORT});
 });
