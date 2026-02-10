@@ -47,7 +47,7 @@ Date: ${new Date().toLocaleString()}
       console.error(err);
       return res.status(500).send("Error saving message");
     }
-    res.send("Message saved successfully");
+     res.redirect("Message saved successfully");
   });
 });
 
