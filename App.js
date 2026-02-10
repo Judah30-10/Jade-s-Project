@@ -24,24 +24,31 @@ app.get("/", (req, res) => {
 });
 
 // Handle form submission
-app.post('/submit', upload.none(), (req, res) => {
-    const { name, email, message } = req.body;
+app.post("/submit", upload.none(), (req, res) => {
+  console.log("FORM DATA:", req.body);
 
-    // Validate
-    if (!name || !email || !message) {
-        return res.status(400).send('All fields are required!');
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).send("All fields are required");
+  }
+
+  const text = `
+------------------------
+Name: ${name}
+Email: ${email}
+Message: ${message}
+Date: ${new Date().toLocaleString()}
+------------------------
+`;
+
+  fs.appendFile("messages.txt", text, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error saving message");
     }
-
-    const data = Name: ${name}, Email: ${email}, Message: ${message}\n;
-    const filePath = path.join(__dirname, 'messages.txt');
-
-    fs.appendFile(filePath, data, { flag: 'a+' }, (err) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Error saving message.');
-        }
-        res.send('Message sent successfully!');
-    });
+    res.send("Message saved successfully");
+  });
 });
 
 // Start server
