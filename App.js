@@ -2,20 +2,31 @@ const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
 const path = require("path");
+const multer = require("multer");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// middleware
+// Multer setup (for form data)
+const upload = multer();
+
+// Middleware
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// serve static files from /public
+// Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// handle form submission
-app.post("/submit", (req, res) => {
+// Home route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Handle form submission
+app.post("/submit", upload.none(), (req, res) => {
+  console.log("FORM DATA:", req.body);
+
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
@@ -40,7 +51,7 @@ Date: ${new Date().toLocaleString()}
   });
 });
 
-// start server
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+ console.log(`Server running on port ${PORT}`);
 });
